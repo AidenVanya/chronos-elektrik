@@ -1,0 +1,113 @@
+<app-page-shell>
+  <!-- Hero -->
+  <section style="position:relative;z-index:1;overflow:hidden;padding:180px 0 100px;border-bottom:1px solid var(--line);">
+    <div style="position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 0%,rgba(91,141,239,.10),transparent 60%);pointer-events:none;z-index:0;"></div>
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;position:relative;z-index:1;text-align:center;">
+      <app-reveal [delay]="80"><div style="margin-bottom:24px;"><app-eyebrow>Hizmet Bölgesi</app-eyebrow></div></app-reveal>
+      <app-reveal [delay]="180">
+        <h1 class="display" style="margin:0 auto;font-size:clamp(38px,5.5vw,72px);font-weight:600;line-height:1.04;letter-spacing:-.03em;max-width:720px;">İstanbul ve çevresi. 80 km yarıçapında.</h1>
+      </app-reveal>
+      <app-reveal [delay]="320">
+        <p style="margin:24px auto 0;max-width:560px;font-size:clamp(15px,1.2vw,18px);color:var(--muted);line-height:1.6;">
+          6 hizmet merkezi ve 24 mobil ekip ile İstanbul'un tamamına ve Marmara Bölgesi'ne ulaşıyoruz.
+        </p>
+      </app-reveal>
+    </div>
+  </section>
+
+  <!-- Map + stats -->
+  <section style="position:relative;z-index:1;padding:100px 0;">
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+      <div class="col-2" style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;">
+        <!-- Map -->
+        <app-reveal>
+          <div style="position:relative;border-radius:var(--radius-lg);border:1px solid var(--line);overflow:hidden;background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(91,141,239,.08),transparent 70%);aspect-ratio:4/3;">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;">
+              <defs>
+                <pattern id="grid-cov" width="10" height="10" patternUnits="userSpaceOnUse">
+                  <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="0.2"/>
+                </pattern>
+              </defs>
+              <rect width="100" height="100" fill="url(#grid-cov)"/>
+              <path d="M 20,30 Q 30,18 45,22 Q 60,25 65,40 Q 70,55 60,72 Q 50,90 38,86 Q 22,80 18,62 Q 14,46 20,30 Z" fill="rgba(255,255,255,.04)" stroke="rgba(91,141,239,.2)" stroke-width="0.3"/>
+              <circle cx="50" cy="70" r="22" fill="none" stroke="rgba(91,141,239,.18)" stroke-width="0.4" stroke-dasharray="1 1"/>
+              <circle cx="50" cy="70" r="14" fill="rgba(91,141,239,.07)" stroke="rgba(91,141,239,.3)" stroke-width="0.4"/>
+              @for (c of cities; track c.x) {
+                <circle [attr.cx]="c.x" [attr.cy]="c.y" r="1.2" fill="var(--accent)">
+                  <animate attributeName="r" values="1.2;2.4;1.2" dur="2.5s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" values="1;0.2;1" dur="2.5s" repeatCount="indefinite"/>
+                </circle>
+              }
+            </svg>
+            <div style="position:absolute;top:18px;left:18px;display:flex;flex-direction:column;gap:8px;">
+              <span class="mono" style="font-size:10.5px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;">Hizmet Bölgesi</span>
+              <span class="display" style="font-size:26px;font-weight:600;letter-spacing:-.02em;">İstanbul + 80 km</span>
+              <span style="font-size:12.5px;color:var(--muted);">6 merkez · 24 mobil ekip</span>
+            </div>
+          </div>
+        </app-reveal>
+
+        <!-- Info -->
+        <app-reveal [delay]="180">
+          <div style="display:flex;flex-direction:column;gap:32px;">
+            <div>
+              <div class="display" style="font-size:56px;font-weight:600;letter-spacing:-.03em;color:var(--accent);line-height:1;">80 km</div>
+              <div style="font-size:16px;color:var(--muted);margin-top:8px;line-height:1.5;">İstanbul merkez ofisimizden kapsama yarıçapı</div>
+            </div>
+            <div style="height:1px;background:var(--line);"></div>
+            <div class="cov-stats" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+              <div><div class="display" style="font-size:32px;font-weight:600;color:var(--accent);">6</div><div style="font-size:14px;color:var(--muted);margin-top:4px;">Hizmet merkezi</div></div>
+              <div><div class="display" style="font-size:32px;font-weight:600;color:var(--accent);">24</div><div style="font-size:14px;color:var(--muted);margin-top:4px;">Mobil ekip</div></div>
+              <div><div class="display" style="font-size:32px;font-weight:600;color:var(--accent);">38 dk</div><div style="font-size:14px;color:var(--muted);margin-top:4px;">Ortalama müdahale</div></div>
+              <div><div class="display" style="font-size:32px;font-weight:600;color:var(--accent);">7/24</div><div style="font-size:14px;color:var(--muted);margin-top:4px;">Acil hat</div></div>
+            </div>
+          </div>
+        </app-reveal>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zones -->
+  <section style="position:relative;z-index:1;padding:60px 0 100px;">
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+      <app-reveal>
+        <div style="text-align:center;margin-bottom:48px;">
+          <app-eyebrow>Bölgeler</app-eyebrow>
+          <h2 class="display" style="margin:20px 0 0;font-size:clamp(30px,3.8vw,48px);font-weight:600;line-height:1.05;letter-spacing:-.025em;">Hizmet verdiğimiz şehirler.</h2>
+        </div>
+      </app-reveal>
+      <div class="col-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+        @for (zone of zones; track zone.name; let i = $index) {
+          <app-reveal [delay]="i * 120">
+            <app-card [padding]="28">
+              <div class="mono" style="font-size:11px;color:var(--accent);letter-spacing:.18em;text-transform:uppercase;margin-bottom:16px;">{{ zone.name }}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                @for (city of zone.cities; track city) {
+                  <span style="font-size:13px;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:4px 10px;">{{ city }}</span>
+                }
+              </div>
+            </app-card>
+          </app-reveal>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="position:relative;z-index:1;padding:40px 0 80px;">
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+      <app-reveal>
+        <div class="col-2" style="border-radius:28px;padding:clamp(40px,5vw,64px);background:linear-gradient(135deg,rgba(91,141,239,.12),rgba(91,141,239,.02));border:1px solid rgba(91,141,239,.25);display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:center;">
+          <div>
+            <h2 class="display" style="margin:0 0 14px;font-size:clamp(28px,3.4vw,44px);font-weight:600;letter-spacing:-.02em;line-height:1.1;">Bölgenizde miyiz?</h2>
+            <p style="margin:0;color:var(--muted);font-size:16px;line-height:1.55;">Kesin olmayan durumlarda lütfen bizi arayın, özel çözüm üretelim.</p>
+          </div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a routerLink="/booking" style="text-decoration:none;"><app-button variant="primary">Randevu Al <icon-arrow-right [size]="14" /></app-button></a>
+            <a routerLink="/contact" style="text-decoration:none;"><app-button variant="secondary">İletişim</app-button></a>
+          </div>
+        </div>
+      </app-reveal>
+    </div>
+  </section>
+</app-page-shell>

@@ -1,0 +1,307 @@
+<app-page-shell>
+
+  <!-- ===== HERO ===== -->
+  <section style="position:relative;z-index:1;overflow:hidden;min-height:660px;display:flex;align-items:center;padding-top:160px;padding-bottom:80px;">
+    <!-- Video arka plan -->
+    <video #heroVideo autoplay muted playsinline
+           src="/videos/mp_.mp4"
+           (ended)="onVideoEnded(heroVideo)"
+           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;"></video>
+    <!-- Karanlık overlay -->
+    <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(10,10,12,0.45) 0%,rgba(10,10,12,0.80) 100%);pointer-events:none;"></div>
+    <!-- İçerik -->
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;position:relative;z-index:2;width:100%;">
+      <div style="max-width:880px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:28px;">
+        <app-eyebrow>Belgeli · Sigortalı · 7/24</app-eyebrow>
+        <h1 class="display" style="margin:0;font-size:clamp(40px,6vw,76px);font-weight:600;line-height:1.02;letter-spacing:-.03em;text-wrap:balance;">
+          @for (part of headlineParts(); track $index) {
+            @if (part.accent) {
+              <span style="color:var(--accent)">{{ part.text }}</span>
+            } @else {
+              {{ part.text }}
+            }
+          }
+        </h1>
+        <p style="margin:0;font-size:clamp(16px,1.3vw,19px);color:var(--muted);line-height:1.55;max-width:560px;">{{ cfg.config().subheadline }}</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+          <a routerLink="/booking" style="text-decoration:none;">
+            <app-button variant="primary">Mühendis Çağırın <icon-arrow-right [size]="14" /></app-button>
+          </a>
+          <a routerLink="/services" style="text-decoration:none;">
+            <app-button variant="secondary">Hizmetlerimiz</app-button>
+          </a>
+        </div>
+        <div class="hero-stats" style="display:grid;grid-template-columns:repeat(3,auto);gap:40px;margin-top:24px;padding-top:28px;border-top:1px solid rgba(255,255,255,0.15);width:100%;max-width:720px;">
+          <app-reveal [delay]="400">
+            <div class="display" style="font-size:26px;font-weight:600;letter-spacing:-.02em;"><app-counter [to]="1400" />+</div>
+            <div style="font-size:12.5px;color:var(--muted);margin-top:4px;">Akıllı ev kurulumu</div>
+          </app-reveal>
+          <app-reveal [delay]="520">
+            <div class="display" style="font-size:26px;font-weight:600;letter-spacing:-.02em;"><app-counter [to]="45" [duration]="1200" /> dk</div>
+            <div style="font-size:12.5px;color:var(--muted);margin-top:4px;">Acil müdahale süresi</div>
+          </app-reveal>
+          <app-reveal [delay]="640">
+            <div class="display" style="font-size:26px;font-weight:600;letter-spacing:-.02em;"><app-counter [to]="4.9" [duration]="1400" [decimals]="1" /> / 5</div>
+            <div style="font-size:12.5px;color:var(--muted);margin-top:4px;">380 değerlendirme</div>
+          </app-reveal>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EMERGENCY BAR ===== -->
+  @if (cfg.config().showEmergencyBar) {
+    <div style="position:relative;z-index:2;">
+      <div style="background:linear-gradient(90deg,rgba(91,141,239,.06),rgba(91,141,239,.18),rgba(91,141,239,.06));border-top:1px solid rgba(91,141,239,.25);border-bottom:1px solid rgba(91,141,239,.25);padding:16px 0;">
+        <div style="max-width:1240px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <span style="width:34px;height:34px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#111;box-shadow:0 0 24px rgba(91,141,239,.6);animation:pulse 2s ease-in-out infinite;">
+              <icon-bolt [size]="16" />
+            </span>
+            <div>
+              <div style="font-size:14.5px;font-weight:600;">7/24 Acil Servis Hattı</div>
+              <div style="font-size:12.5px;color:var(--muted);">45 dakika içinde müdahale · İstanbul ve Marmara Bölgesi</div>
+            </div>
+          </div>
+          <a [href]="'tel:' + cfg.config().phone.replace(' ','')" class="mono" style="color:var(--accent);font-size:20px;font-weight:600;letter-spacing:.06em;text-decoration:none;">{{ cfg.config().phone }}</a>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ===== SERVICES ===== -->
+  <app-section id="services" label="Temel Hizmetler" title="Mekânınızın temel taşı olan sistemleri tasarlıyoruz." description="Özel akıllı ev tasarımından sertifikalı tesisat yenilemeye — üç uzmanlık, tek ekip. Taşeronsuz.">
+    <div class="services-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+      @for (svc of services; track svc.tag; let i = $index) {
+        <app-reveal [delay]="i * 120">
+          <app-card [padding]="32">
+            <div style="overflow:hidden;border-radius:10px 10px 0 0;margin:-32px -32px 24px;height:180px;">
+              @if (svc.icon === 'smart-home') {
+                <img src="/images/network.png" style="width:100%;height:100%;object-fit:cover;object-position:center 10%;" alt="Akıllı ev otomasyon" loading="lazy">
+              } @else if (svc.icon === 'bolt-ev') {
+                <img src="/images/meter.png" style="width:100%;height:100%;object-fit:cover;object-position:center 10%;" alt="Enerji ve EV şarj" loading="lazy">
+              } @else {
+                <img src="/images/panel.png" style="width:100%;height:100%;object-fit:cover;object-position:center 10%;" alt="Elektrik tesisat" loading="lazy">
+              }
+            </div>
+            <div style="width:56px;height:56px;border-radius:14px;background:var(--accent-soft);color:var(--accent);display:inline-flex;align-items:center;justify-content:center;margin-bottom:24px;border:1px solid rgba(91,141,239,.18);">
+              @if (svc.icon === 'smart-home') { <icon-smart-home [size]="28" /> }
+              @else if (svc.icon === 'bolt-ev') { <icon-bolt-ev [size]="28" /> }
+              @else { <icon-panel [size]="28" /> }
+            </div>
+            <div class="mono" style="font-size:11px;color:var(--accent);letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px;">{{ svc.tag }}</div>
+            <h3 class="display" style="margin:0 0 12px;font-size:22px;font-weight:600;letter-spacing:-.015em;">{{ svc.title }}</h3>
+            <p style="margin:0 0 22px;color:var(--muted);line-height:1.55;font-size:14.5px;">{{ svc.desc }}</p>
+            <ul style="list-style:none;padding:0;margin:0 0 26px;display:flex;flex-direction:column;gap:9px;">
+              @for (pt of svc.points; track pt) {
+                <li style="display:flex;align-items:center;gap:10px;font-size:14px;">
+                  <span style="width:18px;height:18px;border-radius:999px;background:rgba(91,141,239,.12);color:var(--accent);display:inline-flex;align-items:center;justify-content:center;">
+                    <icon-check [size]="10" />
+                  </span>{{ pt }}
+                </li>
+              }
+            </ul>
+            <a href="#booking" style="display:inline-flex;align-items:center;gap:8px;color:var(--accent);text-decoration:none;font-size:13.5px;font-weight:600;">
+              Teklif al <icon-arrow-right [size]="14" />
+            </a>
+          </app-card>
+        </app-reveal>
+      }
+    </div>
+  </app-section>
+
+  <!-- ===== WHY US ===== -->
+  <app-section id="why-us" label="Neden Chronos" title="Kabul ettiğimiz her işin arkasındaki üç söz.">
+    <div class="why-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+      @for (m of metrics; track m.k; let i = $index) {
+        <app-reveal [delay]="i * 140">
+          <app-card [padding]="32">
+            <div class="mono" style="font-size:11px;color:var(--dim);letter-spacing:.2em;margin-bottom:22px;">0{{ i+1 }} · SÖZ</div>
+            <div class="display" style="font-size:64px;font-weight:600;letter-spacing:-.04em;line-height:1;margin-bottom:16px;background:linear-gradient(180deg,var(--accent),#3a6fd8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">{{ m.k }}</div>
+            <div style="font-size:15.5px;font-weight:500;line-height:1.4;margin-bottom:10px;">{{ m.label }}</div>
+            <div style="font-size:13.5px;color:var(--muted);line-height:1.55;">{{ m.sub }}</div>
+          </app-card>
+        </app-reveal>
+      }
+    </div>
+    <app-reveal>
+      <div style="margin-top:56px;padding:24px 0;background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;">
+        <div class="marquee">
+          <div class="marquee-track" style="gap:48px;">
+            @for (b of certTripled; track $index) {
+              <span class="display" style="font-size:17px;font-weight:600;letter-spacing:.04em;color:var(--text);opacity:.6;white-space:nowrap;display:inline-flex;align-items:center;gap:12px;">
+                <span style="width:6px;height:6px;border-radius:999px;background:var(--accent);opacity:.8;"></span>{{ b }}
+              </span>
+            }
+          </div>
+        </div>
+      </div>
+    </app-reveal>
+  </app-section>
+
+  <!-- ===== BOOKING ===== -->
+  <app-section id="booking" label="Teklif Alın" title="Dört adım. Sabit fiyat." description="Ne istediğinizi ve ne zaman istediğinizi söyleyin. Anında tahmini fiyat aralığı, ücretsiz 15 dakikalık görüşme sonrası sabit teklif iletilir.">
+    <div style="max-width:980px;margin:0 auto;">
+
+      @if (bookingSubmitted()) {
+        <!-- Success -->
+        <div style="background:linear-gradient(180deg,rgba(91,141,239,.06),rgba(255,255,255,.005));border:1px solid rgba(91,141,239,.35);border-radius:24px;padding:44px;backdrop-filter:blur(20px);">
+          <div style="width:56px;height:56px;border-radius:16px;background:var(--accent);color:#0b0b0d;display:inline-flex;align-items:center;justify-content:center;margin-bottom:22px;box-shadow:0 0 32px rgba(91,141,239,.5);">
+            <icon-check [size]="24" />
+          </div>
+          <h3 class="display" style="margin:0 0 10px;font-size:32px;font-weight:600;letter-spacing:-.02em;">
+            Randevu alındı. Referans <span style="color:var(--accent)">#CT-{{ bookingRef() }}</span>
+          </h3>
+          <p style="margin:0 0 30px;color:var(--muted);font-size:15.5px;line-height:1.5;max-width:540px;">
+            Onay <span style="color:var(--text)">{{ bookingContact().email }}</span> adresine gönderildi.
+          </p>
+          <div class="summary-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:22px;background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:14px;margin-bottom:28px;">
+            <div><div class="mono" style="font-size:10.5px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px;">Hizmet</div><div style="font-size:14px;font-weight:500;">{{ selectedType?.title }}</div></div>
+            <div><div class="mono" style="font-size:10.5px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px;">Detay</div><div style="font-size:14px;font-weight:500;">{{ bookingOption() }}</div></div>
+            <div><div class="mono" style="font-size:10.5px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px;">Ziyaret</div><div style="font-size:14px;font-weight:500;">{{ bookingSlot() }}</div></div>
+            <div><div class="mono" style="font-size:10.5px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px;">Tahmini</div><div class="mono" style="font-size:14px;font-weight:500;color:var(--accent);">{{ bookingOptionEst }}</div></div>
+          </div>
+          <button (click)="resetBooking()" style="background:transparent;border:1px solid var(--line-2);color:var(--text);padding:10px 18px;border-radius:999px;cursor:pointer;font-size:13.5px;font-family:inherit;">Yeni randevu oluştur</button>
+        </div>
+      } @else {
+        <!-- Booking widget -->
+        <div style="background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));border:1px solid var(--line-2);border-radius:24px;overflow:hidden;backdrop-filter:blur(20px);box-shadow:0 40px 80px -40px rgba(0,0,0,.7);">
+          <!-- Header -->
+          <div style="padding:22px 28px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.015);">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="width:32px;height:32px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(91,141,239,.18);">
+                <icon-bolt [size]="14" />
+              </div>
+              <div>
+                <div>Teklif ve Randevu</div>
+                <div style="font-size:12px;color:var(--muted);">Yaklaşık 60 saniye sürer.</div>
+              </div>
+            </div>
+            <!-- Step dots -->
+            <div style="display:flex;align-items:center;gap:10px;">
+              @for (dot of [0,1,2,3]; track dot) {
+                <div [style.width]="dot === bookingStep() ? '32px' : '8px'" style="height:8px;border-radius:999px;transition:all .3s ease;"
+                     [style.background]="dot < bookingStep() || dot === bookingStep() ? 'var(--accent)' : 'rgba(255,255,255,.15)'"
+                     [style.box-shadow]="dot === bookingStep() ? '0 0 12px rgba(91,141,239,.5)' : 'none'"></div>
+              }
+            </div>
+          </div>
+
+          <!-- Steps -->
+          <div style="padding:36px;min-height:440px;">
+            @if (bookingStep() === 0) {
+              <h3 class="display" style="margin:0 0 6px;font-size:24px;font-weight:600;letter-spacing:-.02em;">Ne tür bir iş?</h3>
+              <p style="margin:0 0 24px;color:var(--muted);font-size:14px;">Size en yakın kategoriyi seçin — sonraki adımda detaylandıracağız.</p>
+              <div class="step-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+                @for (t of serviceTypes; track t.key) {
+                  <button type="button" (click)="bookingType.set(t.key)"
+                    style="text-align:left;border-radius:14px;padding:20px;cursor:pointer;font-family:inherit;color:var(--text);transition:all .18s ease;position:relative;"
+                    [style.background]="bookingType() === t.key ? 'rgba(91,141,239,.08)' : 'rgba(255,255,255,.02)'"
+                    [style.border]="bookingType() === t.key ? '1px solid var(--accent)' : '1px solid var(--line)'"
+                    [style.box-shadow]="bookingType() === t.key ? '0 0 0 4px rgba(91,141,239,.1)' : 'none'">
+                    <div style="width:52px;height:52px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;transition:all .2s;"
+                         [style.background]="bookingType() === t.key ? 'var(--accent)' : 'rgba(255,255,255,.04)'"
+                         [style.color]="bookingType() === t.key ? '#0b0b0d' : 'var(--accent)'">
+                      @if (t.icon === 'smart-home') { <icon-smart-home [size]="28" /> }
+                      @else if (t.icon === 'bolt-ev') { <icon-bolt-ev [size]="28" /> }
+                      @else { <icon-panel [size]="28" /> }
+                    </div>
+                    <div class="display" style="font-size:18px;font-weight:600;margin-bottom:4px;">{{ t.title }}</div>
+                    <div style="font-size:13px;color:var(--muted);">{{ t.desc }}</div>
+                  </button>
+                }
+              </div>
+            }
+
+            @if (bookingStep() === 1 && selectedType) {
+              <h3 class="display" style="margin:0 0 6px;font-size:24px;font-weight:600;letter-spacing:-.02em;">{{ selectedType.title }} kapsamında hangi hizmet?</h3>
+              <p style="margin:0 0 24px;color:var(--muted);font-size:14px;">Bunlar tahmini aralıklardır — sabit teklif, ücretsiz 15 dakikalık görüşmenin sonrasında iletilir.</p>
+              <div class="step-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+                @for (o of selectedType.options; track o.name) {
+                  <button type="button" (click)="bookingOption.set(o.name)"
+                    style="text-align:left;border-radius:14px;padding:16px 18px;cursor:pointer;font-family:inherit;color:var(--text);transition:all .18s;"
+                    [style.background]="bookingOption() === o.name ? 'rgba(91,141,239,.08)' : 'rgba(255,255,255,.02)'"
+                    [style.border]="bookingOption() === o.name ? '1px solid var(--accent)' : '1px solid var(--line)'">
+                    <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
+                      <div style="font-size:15px;font-weight:500;">{{ o.name }}</div>
+                      <div class="mono" style="font-size:12px;font-weight:500;" [style.color]="bookingOption() === o.name ? 'var(--accent)' : 'var(--muted)'">{{ o.est }}</div>
+                    </div>
+                  </button>
+                }
+              </div>
+            }
+
+            @if (bookingStep() === 2) {
+              <h3 class="display" style="margin:0 0 6px;font-size:24px;font-weight:600;letter-spacing:-.02em;">Hangi gün uygun?</h3>
+              <p style="margin:0 0 24px;color:var(--muted);font-size:14px;">Tüm ziyaretler 10 dakika içinde SMS ile teyit edilir.</p>
+              <div class="slot-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+                @for (d of slots; track d.day) {
+                  <div style="border:1px solid var(--line);border-radius:14px;padding:14px;background:rgba(255,255,255,.02);">
+                    <div style="margin-bottom:14px;">
+                      <div style="font-size:14px;font-weight:600;">{{ d.day }}</div>
+                      <div class="mono" style="font-size:11.5px;color:var(--muted);">{{ d.date }}</div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:6px;">
+                      @for (s of d.slots; track s) {
+                        <button type="button" (click)="bookingSlot.set(d.day + ' ' + s)"
+                          style="border-radius:8px;padding:8px 10px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:500;transition:all .15s;"
+                          [style.background]="bookingSlot() === d.day + ' ' + s ? 'var(--accent)' : 'rgba(255,255,255,.04)'"
+                          [style.color]="bookingSlot() === d.day + ' ' + s ? '#0b0b0d' : 'var(--text)'"
+                          [style.border]="bookingSlot() === d.day + ' ' + s ? '1px solid var(--accent)' : '1px solid transparent'">{{ s }}</button>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+
+            @if (bookingStep() === 3) {
+              <h3 class="display" style="margin:0 0 6px;font-size:24px;font-weight:600;letter-spacing:-.02em;">Birkaç bilgi daha, onay gönderelim.</h3>
+              <p style="margin:0 0 24px;color:var(--muted);font-size:14px;">Bilgileriniz paylaşılmaz. SMS ve e-posta ile bilgilendirme yaparız.</p>
+              <div class="step-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;">
+                <label style="display:flex;flex-direction:column;gap:8px;">
+                  <span class="mono" style="font-size:10.5px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;">Ad Soyad</span>
+                  <input type="text" placeholder="Ahmet Yılmaz" [value]="bookingContact().name" (input)="updateContact('name', $any($event.target).value)" style="background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:10px;padding:12px 14px;color:var(--text);font-size:14px;font-family:inherit;outline:none;"/>
+                </label>
+                <label style="display:flex;flex-direction:column;gap:8px;">
+                  <span class="mono" style="font-size:10.5px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;">Posta Kodu</span>
+                  <input type="text" placeholder="34330" [value]="bookingContact().postcode" (input)="updateContact('postcode', $any($event.target).value)" style="background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:10px;padding:12px 14px;color:var(--text);font-size:14px;font-family:inherit;outline:none;"/>
+                </label>
+                <label style="display:flex;flex-direction:column;gap:8px;">
+                  <span class="mono" style="font-size:10.5px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;">E-posta</span>
+                  <input type="email" placeholder="ahmet@ornek.com" [value]="bookingContact().email" (input)="updateContact('email', $any($event.target).value)" style="background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:10px;padding:12px 14px;color:var(--text);font-size:14px;font-family:inherit;outline:none;"/>
+                </label>
+                <label style="display:flex;flex-direction:column;gap:8px;">
+                  <span class="mono" style="font-size:10.5px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;">Telefon</span>
+                  <input type="tel" placeholder="0532 000 00 00" [value]="bookingContact().phone" (input)="updateContact('phone', $any($event.target).value)" style="background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:10px;padding:12px 14px;color:var(--text);font-size:14px;font-family:inherit;outline:none;"/>
+                </label>
+                <label style="display:flex;flex-direction:column;gap:8px;grid-column:span 2;">
+                  <span class="mono" style="font-size:10.5px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;">Eklemek istedikleriniz</span>
+                  <textarea rows="3" placeholder="ör. tarihi bina, üç katlı, EV model…" [value]="bookingContact().notes" (input)="updateContact('notes', $any($event.target).value)" style="background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:10px;padding:12px 14px;color:var(--text);font-size:14px;font-family:inherit;outline:none;resize:vertical;"></textarea>
+                </label>
+              </div>
+            }
+          </div>
+
+          <!-- Footer nav -->
+          <div style="padding:20px 28px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.2);">
+            <button type="button" (click)="prevStep()" [disabled]="bookingStep() === 0"
+              style="background:transparent;border:none;font-size:14px;font-family:inherit;padding:8px 14px;cursor:pointer;"
+              [style.color]="bookingStep() === 0 ? 'var(--dim)' : 'var(--muted)'">← Geri</button>
+            <div style="font-size:12.5px;color:var(--muted);">Adım <span style="color:var(--text);font-weight:600;">{{ bookingStep() + 1 }}</span> / 4</div>
+            @if (bookingStep() < 3) {
+              <app-button variant="primary" (clicked)="nextStep()">
+                <span [style.opacity]="canAdvance ? '1' : '0.5'">Devam</span> <icon-arrow-right [size]="14" />
+              </app-button>
+            } @else {
+              <app-button variant="primary" (clicked)="submitBooking()">
+                <span [style.opacity]="canAdvance ? '1' : '0.5'">Randevuyu onayla</span> <icon-check [size]="14" />
+              </app-button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </app-section>
+
+</app-page-shell>

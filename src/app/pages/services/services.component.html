@@ -1,0 +1,208 @@
+<app-page-shell>
+  <!-- Hero -->
+  <section style="position:relative;z-index:1;overflow:hidden;padding:180px 0 100px;border-bottom:1px solid var(--line);">
+    <div style="position:absolute;inset:0;z-index:0;background:radial-gradient(60% 50% at 50% 0%,rgba(91,141,239,.10),transparent 60%);pointer-events:none;"></div>
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;position:relative;z-index:1;text-align:center;">
+      <app-reveal>
+        <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:28px;color:var(--dim);font-size:12.5px;" class="mono">
+          <a routerLink="/" style="color:var(--muted);text-decoration:none;">Anasayfa</a>
+          <span>/</span>
+          <span style="color:var(--accent);">Hizmetler</span>
+        </div>
+      </app-reveal>
+      <app-reveal [delay]="80">
+        <div style="margin-bottom:24px;"><app-eyebrow>Üç uzmanlık</app-eyebrow></div>
+      </app-reveal>
+      <app-reveal [delay]="180">
+        <h1 class="display" style="margin:0 auto;font-size:clamp(38px,5.5vw,72px);font-weight:600;line-height:1.04;letter-spacing:-.03em;max-width:920px;">
+          Modern mekânların gerçekten yaşadığı şekilde tasarlanmış sistemler.
+        </h1>
+      </app-reveal>
+      <app-reveal [delay]="320">
+        <p style="margin:24px auto 0;max-width:640px;font-size:clamp(15px,1.2vw,18px);color:var(--muted);line-height:1.6;">
+          Akıllı ev tasarımı, premium enerji altyapısı ve sertifikalı elektrik mühendisliği — adıyla aradığınız tek bir ekip tarafından.
+        </p>
+      </app-reveal>
+    </div>
+  </section>
+
+  <!-- Tabs -->
+  <div style="position:sticky;top:70px;z-index:10;background:rgba(10,10,12,.7);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);">
+    <div style="max-width:1240px;margin:0 auto;display:flex;gap:6px;padding:14px 32px;justify-content:center;flex-wrap:wrap;">
+      @for (tab of tabs; track tab.id) {
+        <a [href]="'#' + tab.id" style="padding:8px 16px;border-radius:999px;font-size:13.5px;color:var(--muted);text-decoration:none;border:1px solid var(--line);transition:all .15s;"
+           (mouseenter)="$any($event.target).style.color='var(--accent)';$any($event.target).style.borderColor='rgba(91,141,239,.3)'"
+           (mouseleave)="$any($event.target).style.color='var(--muted)';$any($event.target).style.borderColor='var(--line)'">{{ tab.label }}</a>
+      }
+    </div>
+  </div>
+
+  <!-- Service details -->
+  @for (svc of serviceDetails; track svc.anchor; let i = $index) {
+    <section [id]="svc.anchor" style="position:relative;z-index:1;padding:100px 0;">
+      <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+        <div class="col-2" style="display:grid;grid-template-columns:1.25fr 1fr;gap:64px;align-items:center;">
+          <app-reveal>
+            <div>
+              <div class="mono" style="font-size:11px;color:var(--accent);letter-spacing:.22em;margin-bottom:14px;">{{ svc.tag }}</div>
+              <h2 class="display" style="margin:0 0 14px;font-size:clamp(28px,3.6vw,44px);font-weight:600;line-height:1.08;letter-spacing:-.02em;">{{ svc.title }}</h2>
+              <p class="display" style="margin:0 0 22px;font-size:18px;font-weight:500;color:var(--accent);letter-spacing:-.01em;">{{ svc.kicker }}</p>
+              <p style="margin:0 0 32px;color:var(--muted);font-size:15.5px;line-height:1.6;max-width:540px;">{{ svc.blurb }}</p>
+              <ul style="list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 24px;">
+                @for (f of svc.features; track f) {
+                  <li style="display:flex;align-items:center;gap:10px;font-size:14px;">
+                    <span style="width:18px;height:18px;border-radius:999px;background:rgba(91,141,239,.12);color:var(--accent);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">
+                      <icon-check [size]="10" />
+                    </span>{{ f }}
+                  </li>
+                }
+              </ul>
+            </div>
+          </app-reveal>
+          <app-reveal [delay]="180">
+            <div style="display:flex;flex-direction:column;gap:20px;">
+            <div style="overflow:hidden;border-radius:16px;aspect-ratio:4/3;">
+              @if (svc.icon === 'smart-home') {
+                <img src="/images/thermostat.png" style="width:100%;height:100%;object-fit:cover;object-position:center 10%;" alt="Akıllı termostat" loading="lazy">
+              } @else if (svc.icon === 'bolt-ev') {
+                <img src="/images/lighting.png" style="width:100%;height:100%;object-fit:cover;object-position:center 10%;" alt="Aydınlatma kurulumu" loading="lazy">
+              } @else {
+                <img src="/images/wiring.png" style="width:100%;height:100%;object-fit:cover;object-position:center 10%;" alt="Elektrik tesisat" loading="lazy">
+              }
+            </div>
+            <app-card [padding]="32" [hover]="false" style="background:linear-gradient(160deg,rgba(91,141,239,.08),rgba(255,255,255,.01))">
+              <div style="width:64px;height:64px;border-radius:16px;background:var(--accent);color:#0b0b0d;display:inline-flex;align-items:center;justify-content:center;margin-bottom:28px;box-shadow:0 20px 40px -15px rgba(91,141,239,.5);">
+                @if (svc.icon === 'smart-home') { <icon-smart-home [size]="32" /> }
+                @else if (svc.icon === 'bolt-ev') { <icon-bolt-ev [size]="32" /> }
+                @else { <icon-panel [size]="32" /> }
+              </div>
+              <div class="display" style="font-size:72px;font-weight:600;letter-spacing:-.04em;line-height:1;margin-bottom:10px;background:linear-gradient(180deg,var(--accent),#3a6fd8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">{{ svc.stat }}</div>
+              <div style="font-size:14px;color:var(--muted);line-height:1.5;max-width:280px;">{{ svc.statLabel }}</div>
+              <div style="margin-top:28px;padding-top:22px;border-top:1px solid var(--line);">
+                <a routerLink="/booking" style="text-decoration:none;">
+                  <app-button variant="ghost" [full]="true">
+                    {{ svc.title.split(' ').slice(0,2).join(' ') }} için teklif al <icon-arrow-right [size]="14" />
+                  </app-button>
+                </a>
+              </div>
+            </app-card>
+            </div>
+          </app-reveal>
+        </div>
+      </div>
+    </section>
+  }
+
+  <!-- Process -->
+  <section style="position:relative;z-index:1;padding:100px 0;">
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+      <app-reveal>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:16px;margin-bottom:48px;text-align:center;">
+          <app-eyebrow>Çalışma şeklimiz</app-eyebrow>
+          <h2 class="display" style="margin:0;font-size:clamp(30px,3.8vw,48px);font-weight:600;line-height:1.05;letter-spacing:-.025em;max-width:820px;">Tek süreç. Taşeronsuz. Her adım hesap verebilir.</h2>
+        </div>
+      </app-reveal>
+      <div class="col-3 col-4 process-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:18px;">
+        @for (step of steps; track step.n; let i = $index) {
+          <app-reveal [delay]="i * 100">
+            <div style="position:relative;">
+              @if (i < steps.length - 1) {
+                <div class="step-connector" style="position:absolute;left:60%;right:-12%;top:22px;height:1px;background:linear-gradient(90deg,var(--line-2),transparent);"></div>
+              }
+              <div style="width:44px;height:44px;border-radius:12px;background:rgba(91,141,239,.1);color:var(--accent);border:1px solid rgba(91,141,239,.25);display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;margin-bottom:18px;">{{ step.n }}</div>
+              <h3 class="display" style="margin:0 0 8px;font-size:19px;font-weight:600;">{{ step.t }}</h3>
+              <p style="margin:0;color:var(--muted);font-size:13.5px;line-height:1.55;">{{ step.d }}</p>
+            </div>
+          </app-reveal>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section style="position:relative;z-index:1;padding:100px 0;">
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+      <app-reveal>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:16px;margin-bottom:48px;text-align:center;">
+          <app-eyebrow>Fiyat aralıkları</app-eyebrow>
+          <h2 class="display" style="margin:0;font-size:clamp(30px,3.8vw,48px);font-weight:600;line-height:1.05;letter-spacing:-.025em;">Şeffaf fiyatlar. Saatlik sürpriz yok.</h2>
+          <p style="margin:0;color:var(--muted);font-size:16.5px;line-height:1.55;max-width:620px;">Nihai sabit teklif ücretsiz 15 dakikalık görüşme sonrası iletilir.</p>
+        </div>
+      </app-reveal>
+      <div class="col-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+        @for (tier of tiers; track tier.tag; let i = $index) {
+          <app-reveal [delay]="i * 100">
+            <app-card [padding]="26" [style]="tier.popular ? 'border-color:rgba(91,141,239,.45)!important;background:linear-gradient(180deg,rgba(91,141,239,.07),rgba(255,255,255,.005))!important' : ''">
+              @if (tier.popular) {
+                <span class="mono" style="position:absolute;top:14px;right:14px;font-size:9.5px;color:var(--accent);letter-spacing:.16em;background:var(--accent-soft);padding:4px 8px;border-radius:999px;border:1px solid rgba(91,141,239,.3);">POPÜLER</span>
+              }
+              <div class="mono" style="font-size:11px;color:var(--dim);letter-spacing:.2em;text-transform:uppercase;margin-bottom:14px;">{{ tier.tag }}</div>
+              <div class="display" style="font-size:36px;font-weight:600;letter-spacing:-.03em;margin-bottom:4px;">{{ tier.from }}</div>
+              <div class="mono" style="font-size:11.5px;color:var(--dim);margin-bottom:18px;">BAŞLANGIÇ · KDV DAHİL</div>
+              <p style="margin:0 0 18px;color:var(--muted);font-size:13.5px;line-height:1.5;">{{ tier.desc }}</p>
+              <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;">
+                @for (f of tier.features; track f) {
+                  <li style="display:flex;align-items:center;gap:8px;font-size:13.5px;"><icon-check [size]="12" /> {{ f }}</li>
+                }
+              </ul>
+            </app-card>
+          </app-reveal>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section style="position:relative;z-index:1;padding:100px 0;">
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+      <app-reveal>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:16px;margin-bottom:48px;text-align:center;">
+          <app-eyebrow>SSS</app-eyebrow>
+          <h2 class="display" style="margin:0;font-size:clamp(30px,3.8vw,48px);font-weight:600;">Sıkça sorulan sorular</h2>
+        </div>
+      </app-reveal>
+      <div style="max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:12px;">
+        @for (faq of faqs; track faq.q; let i = $index) {
+          <app-reveal [delay]="i * 70">
+            <div style="border-radius:14px;overflow:hidden;transition:all .25s ease;"
+                 [style.border]="faqOpen() === i ? '1px solid rgba(91,141,239,.3)' : '1px solid var(--line)'"
+                 [style.background]="faqOpen() === i ? 'rgba(91,141,239,.04)' : 'rgba(255,255,255,.02)'">
+              <button (click)="faqOpen.set(faqOpen() === i ? -1 : i)" style="width:100%;text-align:left;background:transparent;border:none;padding:20px 24px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;color:var(--text);font-family:inherit;font-size:16px;font-weight:500;">
+                <span>{{ faq.q }}</span>
+                <span style="width:28px;height:28px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .25s;font-weight:600;font-size:18px;"
+                      [style.background]="faqOpen() === i ? 'var(--accent)' : 'rgba(255,255,255,.05)'"
+                      [style.color]="faqOpen() === i ? '#0b0b0d' : 'var(--muted)'"
+                      [style.transform]="faqOpen() === i ? 'rotate(45deg)' : 'rotate(0)'">+</span>
+              </button>
+              <div [style.maxHeight]="faqOpen() === i ? '200px' : '0'" style="overflow:hidden;transition:max-height .35s ease;">
+                <div style="padding:0 24px 22px;color:var(--muted);font-size:14.5px;line-height:1.6;">{{ faq.a }}</div>
+              </div>
+            </div>
+          </app-reveal>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="position:relative;z-index:1;padding:40px 0 80px;">
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+      <app-reveal>
+        <div style="position:relative;overflow:hidden;border-radius:28px;padding:clamp(40px,5vw,64px);background:linear-gradient(135deg,rgba(91,141,239,.12),rgba(91,141,239,.02));border:1px solid rgba(91,141,239,.25);display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:center;" class="col-2">
+          <div>
+            <h2 class="display" style="margin:0 0 14px;font-size:clamp(28px,3.4vw,44px);font-weight:600;letter-spacing:-.02em;line-height:1.1;">Net bir rakam ister misiniz?</h2>
+            <p style="margin:0;color:var(--muted);font-size:16px;line-height:1.55;max-width:520px;">Ücretsiz 15 dakikalık görüşme alın. 24 saat içinde size yazılı sabit teklif iletilir.</p>
+          </div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a routerLink="/booking" style="text-decoration:none;">
+              <app-button variant="primary">Mühendis Çağırın <icon-arrow-right [size]="14" /></app-button>
+            </a>
+            <a routerLink="/" style="text-decoration:none;">
+              <app-button variant="secondary">Anasayfaya Dön</app-button>
+            </a>
+          </div>
+        </div>
+      </app-reveal>
+    </div>
+  </section>
+</app-page-shell>
