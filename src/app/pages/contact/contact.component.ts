@@ -1,15 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { PageShellComponent } from '../../core/page-shell/page-shell.component';
 import { RevealComponent } from '../../shared/components/reveal/reveal.component';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { EyebrowComponent } from '../../shared/components/eyebrow/eyebrow.component';
-import { IconArrowRight, IconBolt, IconCheck } from '../../shared/icons';
+import { IconArrowRight, IconCheck } from '../../shared/icons';
 import { ConfigService } from '../../core/config.service';
 
 @Component({
   selector: 'app-contact',
-  imports: [RouterLink, PageShellComponent, RevealComponent, ButtonComponent, EyebrowComponent, IconArrowRight, IconBolt, IconCheck],
+  imports: [PageShellComponent, RevealComponent, ButtonComponent, EyebrowComponent, IconArrowRight, IconCheck],
   templateUrl: './contact.component.html',
 })
 export class ContactComponent {

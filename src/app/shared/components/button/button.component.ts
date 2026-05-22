@@ -1,9 +1,7 @@
 import { Component, input, output, signal } from '@angular/core';
-import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-button',
-  imports: [NgClass],
   template: `
     <button
       [type]="type()"

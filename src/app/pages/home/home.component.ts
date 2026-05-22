@@ -7,7 +7,6 @@ import { CardComponent } from '../../shared/components/card/card.component';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { EyebrowComponent } from '../../shared/components/eyebrow/eyebrow.component';
 import { AnimatedCounterComponent } from '../../shared/components/animated-counter/animated-counter.component';
-import { MarqueeComponent } from '../../shared/components/marquee/marquee.component';
 import { IconArrowRight, IconCheck, IconBolt, IconSmartHome, IconBoltEV, IconPanel } from '../../shared/icons';
 import { ConfigService } from '../../core/config.service';
 
@@ -16,7 +15,7 @@ import { ConfigService } from '../../core/config.service';
   imports: [
     RouterLink, PageShellComponent, SectionComponent, RevealComponent,
     CardComponent, ButtonComponent, EyebrowComponent,
-    AnimatedCounterComponent, MarqueeComponent,
+    AnimatedCounterComponent,
     IconArrowRight, IconCheck, IconBolt, IconSmartHome, IconBoltEV, IconPanel,
   ],
   templateUrl: './home.component.html',

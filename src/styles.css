@@ -16,14 +16,27 @@
   --radius-lg: 22px;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; background: var(--bg-1); color: var(--text); }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg-1); color: var(--text);
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
 body {
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, sans-serif;
   font-feature-settings: "ss01", "cv11";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  position: relative;
 }
+
+/* Genel mobil güvenlikleri: grid/flex item'lar içeriklerini şişirip
+   yatay scroll oluşturmasın. Görseller asla container'dan taşmasın. */
+img, video, svg { max-width: 100%; height: auto; }
+video { height: auto; } /* hero video'da override olacak */
+section, header, footer, main { max-width: 100vw; }
 .display { font-family: 'Space Grotesk', 'Inter', sans-serif; letter-spacing: -0.02em; }
 .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
 ::selection { background: var(--accent); color: #111; }
@@ -241,7 +254,11 @@ body {
 
   /* Hero dikey padding */
   [style*="padding-top:160px"]      { padding-top:110px !important; }
-  [style*="padding:180px 0 100px"]  { padding-top:110px !important; padding-bottom:56px !important; }
+  [style*="padding-bottom:80px"]    { padding-bottom:56px !important; }
+  [style*="padding:180px 0 100px"]  { padding:110px 0 56px !important; }
+
+  /* Hero min-height (anasayfa) — telefonda 660 fazla */
+  [style*="min-height:660px"]       { min-height:auto !important; }
 
   /* Section dikey padding */
   [style*="padding:100px 0"]        { padding-top:60px !important; padding-bottom:60px !important; }
@@ -249,11 +266,20 @@ body {
   [style*="padding:40px 0 80px"]    { padding-top:32px !important; padding-bottom:48px !important; }
   [style*="padding:80px 0"]         { padding-top:48px !important; padding-bottom:48px !important; }
   [style*="padding:100px 0 32px"]   { padding-top:56px !important; }
+  [style*="padding:60px 0"]         { padding-top:40px !important; padding-bottom:40px !important; }
 
   /* Booking widget */
   [style*="min-height:440px"]       { min-height:auto !important; }
-  [style*="padding:36px"]           { padding:20px !important; }
-  [style*="padding:44px"]           { padding:28px !important; }
+  [style*="padding:36px"]           { padding:18px !important; }
+  [style*="padding:44px"]           { padding:24px !important; }
+  /* Booking header satırı */
+  [style*="padding:22px 28px"]      { padding:16px 18px !important; flex-wrap:wrap !important; gap:12px !important; }
+  [style*="padding:20px 28px"]      { padding:14px 18px !important; }
+
+  /* app-card host padding'i (Angular binding) */
+  app-card { padding:22px !important; }
+  /* Services kartı içindeki resim negatif marjini de senkron */
+  [style*="margin:-32px -32px 24px"] { margin:-22px -22px 18px !important; }
 
   /* Grids */
   .slot-grid     { grid-template-columns:repeat(2,1fr) !important; }
@@ -264,37 +290,106 @@ body {
   .contact-form-grid   { grid-template-columns:1fr !important; }
   .cov-stats     { grid-template-columns:1fr 1fr !important; }
 
+  /* Hero stats: 3 sütun otomatik genişlik → eşit dağıtım, içerik şişirmesin */
+  .hero-stats { grid-template-columns:repeat(3,minmax(0,1fr)) !important; gap:18px !important; }
+
   /* Footer gap */
   .footer-grid  { gap:40px !important; margin-bottom:40px !important; }
   .footer-links { padding-top:28px !important; gap:24px !important; }
 
   /* CTA 2-col → 1-col */
   .col-2[style*="grid-template-columns:1.4fr 1fr"] { grid-template-columns:1fr !important; gap:20px !important; }
+  .col-2[style*="grid-template-columns:1.25fr 1fr"] { grid-template-columns:1fr !important; gap:32px !important; }
+  .col-2[style*="grid-template-columns:1.2fr 1fr"]  { grid-template-columns:1fr !important; gap:32px !important; }
+
+  /* Service feature listesi 2-col → 1-col */
+  [style*="grid-template-columns:repeat(2,1fr)"][style*="gap:10px 24px"] {
+    grid-template-columns:1fr !important;
+  }
+
+  /* Booking step 3 form 2-col → 1-col, textarea span sıfırla */
+  .step-grid[style*="repeat(2,1fr)"] { grid-template-columns:1fr !important; }
+  [style*="grid-column:span 2"]      { grid-column:auto !important; }
+
+  /* Tabs sticky offset (nav 64px) */
+  [style*="top:70px"] { top:60px !important; }
 
   /* Büyük rakam fontları */
   .display[style*="font-size:64px"] { font-size:44px !important; }
   .display[style*="font-size:72px"] { font-size:48px !important; }
   .display[style*="font-size:56px"] { font-size:36px !important; }
   .display[style*="font-size:48px"] { font-size:34px !important; }
+  .display[style*="font-size:36px"] { font-size:28px !important; }
+  .display[style*="font-size:32px"] { font-size:26px !important; }
+  .display[style*="font-size:28px"] { font-size:24px !important; }
+  .display[style*="font-size:26px"] { font-size:22px !important; }
+  /* Telefon numarası gibi geniş mono */
+  .mono[style*="font-size:28px"]    { font-size:22px !important; letter-spacing:.02em !important; }
+  .mono[style*="font-size:20px"]    { font-size:17px !important; }
+
+  /* Marquee fontu küçült */
+  .marquee-track .display[style*="font-size:17px"] { font-size:14px !important; }
+  .marquee-track { animation-duration:28s !important; }
+
+  /* Emergency bar telefon numarasının sığması için */
+  .mono.nav-phone-text { display:none !important; }
 }
 
 /* =============================================
    ≤480px  SMALL PHONE
    ============================================= */
 @media (max-width:480px) {
+  /* Container padding 16 → 14 */
+  [style*="padding:0 32px"] { padding-left:14px !important; padding-right:14px !important; }
+  .nav-inner { padding-left:14px !important; padding-right:14px !important; }
+
   .slot-grid    { grid-template-columns:1fr !important; }
   .photos-grid  { grid-template-columns:1fr !important; }
   .process-grid { grid-template-columns:1fr !important; }
-  .hero-stats   { gap:12px !important; }
-  .summary-grid { grid-template-columns:repeat(2,1fr) !important; }
+  .hero-stats   { gap:10px !important; padding-top:20px !important; margin-top:18px !important; }
+  .summary-grid { grid-template-columns:1fr !important; }
+  .cov-stats    { grid-template-columns:1fr 1fr !important; gap:14px !important; }
+
+  /* Hero stats sayıları daha küçük */
+  .hero-stats .display[style*="font-size:26px"] { font-size:18px !important; }
 
   .display[style*="font-size:64px"] { font-size:36px !important; }
   .display[style*="font-size:72px"] { font-size:40px !important; }
   .display[style*="font-size:48px"] { font-size:28px !important; }
-  .display[style*="font-size:32px"] { font-size:26px !important; }
+  .display[style*="font-size:32px"] { font-size:24px !important; }
+  .display[style*="font-size:28px"] { font-size:22px !important; }
+
+  /* Booking widget'ı daha sıkıştır */
+  [style*="padding:36px"] { padding:16px !important; }
+  [style*="padding:44px"] { padding:20px !important; }
+  app-card                { padding:18px !important; }
+  [style*="margin:-32px -32px 24px"] { margin:-18px -18px 14px !important; }
 
   /* Footer alt çizgi */
   [style*="margin-top:56px"][style*="justify-content:space-between"] {
-    flex-direction:column !important; gap:16px !important;
+    flex-direction:column !important; gap:16px !important; align-items:flex-start !important;
   }
+
+  /* Footer links 2 col → 1 col */
+  .footer-links { grid-template-columns:1fr !important; gap:28px !important; }
+
+  /* Newsletter form satırı dikey */
+  form[style*="border-radius:999px"] { flex-wrap:wrap !important; border-radius:18px !important; }
+
+  /* Tabs container scroll */
+  [style*="position:sticky"][style*="top:70px"] > div,
+  [style*="position:sticky"][style*="top:60px"] > div {
+    flex-wrap:nowrap !important; overflow-x:auto !important;
+    justify-content:flex-start !important; scrollbar-width:none;
+  }
+}
+
+/* =============================================
+   ≤360px  XS PHONE  (eski/dar cihazlar)
+   ============================================= */
+@media (max-width:360px) {
+  .display[style*="font-size:64px"] { font-size:32px !important; }
+  .display[style*="font-size:72px"] { font-size:34px !important; }
+  .hero-stats { grid-template-columns:1fr !important; }
+  .cov-stats  { grid-template-columns:1fr !important; }
 }

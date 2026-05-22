@@ -5,11 +5,11 @@ import { RevealComponent } from '../../shared/components/reveal/reveal.component
 import { CardComponent } from '../../shared/components/card/card.component';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { EyebrowComponent } from '../../shared/components/eyebrow/eyebrow.component';
-import { IconArrowRight, IconCheck } from '../../shared/icons';
+import { IconArrowRight } from '../../shared/icons';
 
 @Component({
   selector: 'app-why-us',
-  imports: [RouterLink, PageShellComponent, RevealComponent, CardComponent, ButtonComponent, EyebrowComponent, IconArrowRight, IconCheck],
+  imports: [RouterLink, PageShellComponent, RevealComponent, CardComponent, ButtonComponent, EyebrowComponent, IconArrowRight],
   templateUrl: './why-us.component.html',
 })
 export class WhyUsComponent {
